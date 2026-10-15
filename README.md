@@ -1,24 +1,11 @@
 # Taller de IA en Acción — UTN.BA
 
-Sitio estático para GitHub Pages con ficha interactiva de configuración de un bot.
-
-## Archivos
-- `index.html`: página y funcionalidades de la ficha.
-- `assets/robot-ia.png`: ilustración original conservada en el paquete (no se muestra en el encabezado).
-- `assets/logo-ead.png`: logotipo oscuro de UTN.BA Educación a Distancia.
-- `assets/logo-ead-blanco.png`: logotipo blanco para la franja institucional.
-
-## Publicar o actualizar en GitHub Pages
-1. Descarga y descomprime el ZIP.
-2. Sube o reemplaza `index.html`, `README.md` y la carpeta `assets` completa en la raíz del repositorio.
-3. En GitHub, abre **Settings → Pages** y verifica que publique desde la rama `main`, carpeta `/(root)`.
-4. Espera a que termine la publicación. Si aparece la versión anterior, recarga sin caché o espera a que se actualice.
+Este espacio se comparte con fines didácticos.
 
 ## Funciones
 - Ficha interactiva en siete secciones.
 - Límites y contadores de palabras según el campo.
-- Campo condicional para explicar una opción alternativa de uso del material (máximo 100 palabras).
-- Borde rojo en la sección activa.
+- Campos condicionales para explicar una opción alternativa de uso del material 
 - Vista previa e indicador de progreso.
 - Única opción de salida: impresión/guardado como PDF desde el navegador.
 - Guardado y recuperación local del borrador en el mismo navegador.
