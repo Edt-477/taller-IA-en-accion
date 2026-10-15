@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Herramienta interactiva del Taller de IA en Acción de UTN.BA Educación a Distancia.">
+<title>Taller de IA en Acción | Ficha de configuración del bot</title>
+<style>
+:root{--rojo:#A31235;--rojo-vivo:#c00000;--negro:#1a1a1a;--gris:#666;--gris-claro:#d9d9d9;--fondo:#f5f5f5;--blanco:#fff;--rosa:#f7e8ed;--borde:#dedede}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--fondo);color:var(--negro);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+.authors{margin:14px 0 0;color:#f4dfe5;font-size:.98rem;font-weight:700;letter-spacing:.02em}
+.section-rule{height:2px;background:var(--rojo);width:100%;margin:0 0 24px}
+.section:focus-within{border-color:var(--rojo);box-shadow:0 0 0 2px #a3123518}
+.section{transition:border-color .15s ease,box-shadow .15s ease}
+.word-counter{font-size:.8rem;color:var(--gris);text-align:right;margin-top:-10px;margin-bottom:10px}
+.word-counter.over{color:#b00020;font-weight:700}
+.field textarea[aria-invalid="true"]{border-color:#b00020;outline-color:#b0002024}
+
+a{color:var(--rojo)}
+button,input,textarea,select{font:inherit}
+.topbar{height:8px;background:var(--rojo)}
+.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+header{background:#080808;color:#fff;padding:38px 0 30px;overflow:hidden}
+.hero{display:block;min-height:unset;max-width:100%}
+.kicker{text-transform:uppercase;letter-spacing:.13em;font-size:.8rem;color:#f3a9bd;font-weight:700}
+h1{font-size:clamp(2.3rem,6vw,4.6rem);line-height:.98;margin:.45rem 0 1rem;text-transform:uppercase;letter-spacing:-.035em}
+h1 span{color:var(--rojo)}
+.subtitle{font-size:clamp(1.05rem,2.4vw,1.45rem);max-width:700px;color:#f1f1f1;margin:0}
+.hero-art{display:none!important}
+.brandbar{background:var(--rojo);color:white;padding:17px 0}
+.brand{display:flex;align-items:center;justify-content:center;gap:16px;font-weight:700;letter-spacing:.06em}
+.brand-logo{display:block;width:min(100%,410px);height:auto;max-height:100px;object-fit:contain}
+.print-brand{display:none}
+.brandmark{width:48px;height:48px;border:2px solid white;border-radius:50%;display:grid;place-items:center;font-size:1.5rem}
+.brandname{font-size:clamp(1.5rem,4vw,2.25rem)}
+.branddesc{border-left:2px solid white;padding-left:14px;font-size:.85rem;line-height:1.2;font-weight:500}
+main{padding:32px 0 60px}
+.intro{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;margin-bottom:26px}
+h2{font-size:1.65rem;margin:0 0 8px;line-height:1.2}
+h3{font-size:1.1rem;margin:0 0 12px}
+.muted{color:var(--gris)}
+.pill{display:inline-block;background:var(--rosa);color:var(--rojo);padding:5px 11px;border-radius:99px;font-size:.8rem;font-weight:700}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 24px}
+.btn{border:1px solid var(--rojo);background:var(--rojo);color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn:hover{filter:brightness(.94)}
+.btn.secondary{background:white;color:var(--rojo)}
+.btn.dark{background:#222;border-color:#222}
+.progressbox{background:white;border:1px solid var(--borde);padding:14px 16px;border-radius:12px;min-width:180px}
+.progressline{height:8px;background:#eee;border-radius:20px;overflow:hidden;margin-top:8px}
+.progressline span{display:block;height:100%;width:0;background:var(--rojo);transition:width .2s}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px;align-items:start}
+nav{background:#fff;border:1px solid #e4d7db;border-radius:14px;padding:12px;position:sticky;top:14px;box-shadow:0 8px 24px #1a1a1a0b}
+nav::before{content:"NAVEGACIÓN DE LA FICHA";display:block;color:var(--rojo);font-size:.72rem;letter-spacing:.08em;font-weight:800;padding:8px 10px 11px;border-bottom:1px solid #eee;margin-bottom:7px}
+nav a{display:flex;align-items:center;gap:9px;padding:11px 10px;margin:3px 0;text-decoration:none;color:#333;border-radius:8px;font-size:.9rem;font-weight:700;border-left:3px solid transparent;transition:background .15s ease,color .15s ease}
+nav a:hover{background:#f8f1f3;color:var(--rojo);border-left-color:#d8a1b0}
+nav a.active{background:var(--rosa);color:var(--rojo);border-left-color:var(--rojo)}
+nav a:focus-visible{outline:3px solid #a3123540;outline-offset:2px}
+form{min-width:0}
+.section{background:white;border:1px solid var(--borde);border-radius:14px;padding:24px;margin-bottom:18px;scroll-margin-top:18px}
+.sectionhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
+.num{flex:0 0 38px;height:38px;border-radius:10px;background:var(--rojo);color:white;display:grid;place-items:center;font-weight:700}
+.sectionhead p{margin:0;color:var(--gris);font-size:.94rem}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:15px}
+.field:last-child{margin-bottom:0}
+label,.field-label{font-weight:700;font-size:.92rem}
+.hint{font-size:.82rem;color:var(--gris);font-weight:400}
+input[type=text],input[type=url],textarea,select{width:100%;border:1px solid #cfcfcf;border-radius:8px;padding:10px 11px;background:white;color:var(--negro)}
+textarea{min-height:94px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:3px solid #a3123524;border-color:var(--rojo)}
+fieldset{border:1px solid var(--borde);border-radius:10px;padding:13px 14px;margin:0 0 16px}
+legend{font-weight:700;padding:0 5px}
+.checkgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.checkitem{display:flex;align-items:flex-start;gap:8px;font-size:.92rem;font-weight:400}
+.checkitem input{margin-top:5px;accent-color:var(--rojo)}
+.callout{border-left:4px solid var(--rojo);background:#fbf1f4;padding:12px 14px;border-radius:0 8px 8px 0;font-size:.92rem}
+.preview{background:#f8f8f8;border:1px dashed #bbb;border-radius:10px;padding:16px;white-space:pre-wrap;min-height:80px}
+footer{background:#111;color:#eee;padding:24px 0;font-size:.88rem}
+.rights-notice{background:#fff;border-top:2px solid var(--rojo);padding:18px 0 20px;color:#4d4d4d;font-size:.82rem}
+.rights-notice p{margin:4px 0}
+.rights-notice strong{color:var(--negro);font-size:.9rem}
+.rights-authors{font-weight:700}
+
+footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.small{font-size:.82rem}
+.required{color:var(--rojo)}
+@media(max-width:800px){.hero{display:block;min-height:unset}.hero-art{display:none!important}.layout{grid-template-columns:1fr}nav{position:static;display:flex;gap:5px;overflow-x:auto;padding:9px;scrollbar-width:thin}nav::before{display:none}nav a{white-space:nowrap;flex:0 0 auto;margin:0;border-left:0;border-bottom:3px solid transparent;background:#fff;padding:10px 12px}nav a:hover,nav a.active{border-left:0;border-bottom-color:var(--rojo)}.intro{grid-template-columns:1fr}.progressbox{max-width:240px}.grid2{grid-template-columns:1fr}}
+@media(max-width:480px){.wrap{width:min(100% - 22px,1120px)}header{padding-top:28px}.section{padding:17px}.checkgrid{grid-template-columns:1fr}.branddesc{font-size:.72rem}.brandmark{width:40px;height:40px}}
+@media print{body{background:white}.topbar,.actions,nav,footer,.progressbox{display:none!important}.brandbar{display:none!important}header{background:white;color:#111;padding:10px 0;border-bottom:3px solid var(--rojo)}.print-brand{display:block;margin-bottom:12px}.print-brand img{display:block;width:270px;max-width:75%;height:auto}.hero{display:block;min-height:unset}.hero-art{display:none!important}h1{font-size:28pt;color:#111}.authors{color:#333}h1 span{color:var(--rojo)}.subtitle{color:#333}.wrap{width:100%}main{padding:15px 0}.layout{display:block}.section{break-inside:avoid;border:1px solid #bbb;padding:15px;margin-bottom:12px}.sectionhead{margin-bottom:10px}input,textarea,select{border:0!important;border-bottom:1px solid #aaa!important;border-radius:0!important;padding:4px 0!important;background:transparent!important}.preview{border:1px solid #aaa}.callout{background:#f5f5f5}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<header>
+  <div class="wrap print-brand"><img src="assets/logo-ead.png" alt="UTN.BA Educación a Distancia"></div>
+  <div class="wrap hero">
+    <div>
+      <div class="kicker">UTN.BA · Educación a Distancia</div>
+      <h1><span>Taller de IA</span><br>en Acción</h1>
+      <p class="subtitle">¿Qué cambia cuando la inteligencia artificial entra al aula?</p>
+      <p class="authors">Esp. Elsa Reyes · Lic. Gastón Brito</p>
+      <p class="small" style="color:#ccc;margin-top:18px">Del diseño pedagógico a la configuración y uso de bots en el aula virtual.</p>
+    </div>
+  </div>
+</header>
+<div class="brandbar"><div class="wrap brand"><img class="brand-logo" src="assets/logo-ead-blanco.png" alt="UTN.BA Educación a Distancia"></div></div>
+<main class="wrap">
+  <div class="section-rule" aria-hidden="true"></div>
+  <div class="intro">
+    <div>
+      <span class="pill">Momento 2: Tecnológico. ¿Cómo llevamos el diseño a Moodle?</span>
+      <h2 style="margin-top:10px">Ficha de configuración del bot</h2>
+      <p class="muted">Completa esta ficha a partir de la propuesta pedagógica que diseñaste. La herramienta te permite guardar un borrador y generar la ficha final en PDF.</p>
+      <div class="callout"><strong>Idea central:</strong> la configuración tecnológica debe responder a una necesidad pedagógica concreta. La herramienta no reemplaza las decisiones docentes.</div>
+    </div>
+    <div class="progressbox"><strong>Progreso de la ficha</strong><div id="progressText" class="small muted">0 de 7 secciones</div><div class="progressline"><span id="progressBar"></span></div></div>
+  </div>
+  <div class="layout">
+    <nav aria-label="Secciones de la ficha">
+      <a href="#s1">1. Identificación</a><a href="#s2">2. Propósito pedagógico</a><a href="#s3">3. Identidad del bot</a><a href="#s4">4. Materiales</a><a href="#s5">5. Habilidades</a><a href="#s6">6. Interacción</a><a href="#s7">7. Límites y evaluación</a><a href="#salida">Vista previa</a>
+    </nav>
+    <form id="botForm">
+      <section class="section" id="s1">
+        <div class="sectionhead"><div class="num">1</div><div><h3>Identificación</h3><p>Datos básicos de la propuesta en la que se integrará el bot.</p></div></div>
+        <div class="grid2">
+          <div class="field"><label for="apellidoNombre">Apellido y nombre</label><input id="apellidoNombre" name="Apellido y nombre" type="text" placeholder="Completa tu nombre"></div>
+          <div class="field"><label for="institucion">Institución / carrera</label><input id="institucion" name="Institución / carrera" type="text" placeholder="Institución, carrera o departamento"></div>
+          <div class="field"><label for="asignatura">Asignatura / espacio curricular</label><input id="asignatura" name="Asignatura" type="text" placeholder="Nombre de la asignatura"></div>
+          <div class="field"><label for="destinatarios">Destinatarios</label><input id="destinatarios" name="Destinatarios" type="text" placeholder="¿Quiénes interactuarán con el bot?"></div>
+        </div>
+      </section>
+      <section class="section" id="s2">
+        <div class="sectionhead"><div class="num">2</div><div><h3>Propósito pedagógico</h3><p>Define para qué se incorpora el bot antes de decidir cómo configurarlo.</p></div></div>
+        <div class="field"><label for="problema">¿Qué necesidad o problema pedagógico se busca abordar? <span class="required">*</span></label><textarea id="problema" name="Necesidad pedagógica" required placeholder="Describe la necesidad concreta de la propuesta de enseñanza." data-word-limit="250"></textarea></div>
+        <div class="field"><label for="funcion">¿Qué función cumplirá el bot?</label><select id="funcion" name="Función pedagógica"><option value="">Selecciona una opción</option><option>Tutor</option><option>Orientador</option><option>Asistente</option><option>Mediador</option><option>Consulta de contenidos</option><option>Apoyo para actividades y resolución de problemas</option><option>Apoyo para la retroalimentación</option><option>Otra función</option></select></div>
+        <div class="field"><label for="objetivos">¿Con qué objetivos de aprendizaje y contenidos se relaciona?</label><textarea id="objetivos" name="Objetivos y contenidos" placeholder="Objetivos, contenidos o resultados de aprendizaje vinculados." data-word-limit="250"></textarea></div>
+        <div class="field"><label for="integracion">¿Cómo se integrará en las actividades del aula virtual?</label><textarea id="integracion" name="Integración en el aula" placeholder="En qué momento se utilizará y qué actividad acompañará." data-word-limit="250"></textarea></div>
+      </section>
+      <section class="section" id="s3">
+        <div class="sectionhead"><div class="num">3</div><div><h3>Identidad e instrucciones del bot</h3><p>Describe el estilo de acompañamiento y redacta una primera versión de sus instrucciones.</p></div></div>
+        <div class="grid2">
+          <div class="field"><label for="nombreBot">Nombre del bot</label><input id="nombreBot" name="Nombre del bot" type="text" placeholder="Nombre del asistente"></div>
+          <div class="field"><label for="arquetipo">Estilo / arquetipo</label><select id="arquetipo" name="Estilo o arquetipo"><option value="">Selecciona una opción</option><option>Predeterminado</option><option>Especialista</option><option>Sensei</option><option>Simplificador</option><option>Tutor</option><option>Coach</option><option>Personalizado</option><option>Otro / por definir</option></select></div>
+        </div>
+        <div class="field"><label for="tono">Tono y forma de comunicarse</label><input id="tono" name="Tono y comunicación" type="text" placeholder="Ej.: claro, respetuoso, alentador y adecuado al nivel del curso"></div>
+        <div class="field"><label for="instrucciones">Instrucciones iniciales del bot</label><textarea id="instrucciones" name="Instrucciones iniciales" placeholder="Indica el rol, el propósito, cómo debe responder y cómo debe acompañar al estudiante." data-word-limit="300"></textarea><span class="hint">Es un borrador para revisar y ajustar antes de configurarlo en Moodle.</span></div>
+        <div class="field"><label for="bienvenida">Mensaje de bienvenida</label><textarea id="bienvenida" name="Mensaje de bienvenida" placeholder="¿Cómo se presentará el bot y qué puede hacer por el estudiante?"></textarea></div>
+        <div class="field"><label for="frases">Frases iniciales sugeridas para estudiantes</label><textarea id="frases" name="Frases iniciales" placeholder="1. Una consulta de contenido&#10;2. Una propuesta de práctica&#10;3. Una tarea de producción"></textarea></div>
+      </section>
+      <section class="section" id="s4">
+        <div class="sectionhead"><div class="num">4</div><div><h3>Materiales y fuentes de consulta</h3><p>Identifica qué información utilizará el bot y qué restricciones tendrá al responder.</p></div></div>
+        <fieldset><legend>Materiales previstos</legend><div class="checkgrid">
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Libros y capítulos de Moodle"> Libros y capítulos de Moodle</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Archivos PDF"> Archivos PDF</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Documentos DOCX"> Documentos DOCX</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Presentaciones PPTX"> Presentaciones PPTX</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Archivos TXT o Markdown"> Archivos TXT o Markdown</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Videos públicos de YouTube con subtítulos"> Videos públicos de YouTube con subtítulos</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Presentaciones de Google Slides"> Presentaciones de Google Slides</label>
+          <label class="checkitem"><input type="checkbox" name="Materiales" value="Otros materiales"> Otros materiales</label>
+        </div></fieldset>
+        <div class="field"><label for="fuentes">Detalle de fuentes y materiales concretos</label><textarea id="fuentes" name="Detalle de materiales" placeholder="Nombres de archivos, enlaces o recursos que se prevé incorporar."></textarea></div>
+        <div class="field"><label for="limiteMaterial">¿Cómo debe utilizar el material del curso?</label><select id="limiteMaterial" name="Uso del material"><option value="">Selecciona una opción</option><option>Priorizar el material y complementar con conocimiento general si hace falta</option><option>Responder exclusivamente a partir del material del curso</option><option>Por definir según el arquetipo y las necesidades</option><option>Otro</option></select></div>
+        <div class="field" id="usoMaterialOtroWrap" hidden><label for="usoMaterialOtro">Especifica cómo debe utilizar el material del curso</label><textarea id="usoMaterialOtro" name="Otro uso del material" data-word-limit="100" placeholder="Describe la opción elegida (máximo 100 palabras)."></textarea></div>
+        <div class="callout">Según la guía del asistente, el estilo Especialista utiliza exclusivamente el material del curso. Conviene verificar las opciones disponibles en la instalación concreta de Moodle.</div>
+      </section>
+      <section class="section" id="s5">
+        <div class="sectionhead"><div class="num">5</div><div><h3>Habilidades y actividades</h3><p>Selecciona las capacidades que aportarían valor a la propuesta de enseñanza.</p></div></div>
+        <fieldset><legend>Habilidades que se consideran útiles</legend><div class="checkgrid">
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Diagramas"> Diagramas</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Gráficos"> Gráficos</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Tablas comparativas"> Tablas comparativas</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Funciones matemáticas"> Funciones matemáticas</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Código ejecutable"> Código ejecutable</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Flashcards"> Flashcards</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Cuestionarios"> Cuestionarios</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Unir conceptos"> Unir conceptos</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Ordenar pasos"> Ordenar pasos</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Completar espacios"> Completar espacios</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Clasificar"> Clasificar</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Generar documentos"> Generar documentos</label>
+          <label class="checkitem"><input type="checkbox" name="Habilidades" value="Generar presentaciones"> Generar presentaciones</label>
+        </div></fieldset>
+        <div class="field"><label for="actividades">¿Qué actividades concretas podría acompañar el bot?</label><textarea id="actividades" name="Actividades propuestas" placeholder="Ej.: repasar conceptos, resolver casos, recibir pistas, comparar alternativas, practicar." data-word-limit="300"></textarea></div>
+      </section>
+      <section class="section" id="s6">
+        <div class="sectionhead"><div class="num">6</div><div><h3>Interacción con los estudiantes</h3><p>Anticipa el tipo de diálogo y las respuestas que se esperan.</p></div></div>
+        <div class="field"><label for="respuestas">¿Qué tipo de respuestas esperamos?</label><textarea id="respuestas" name="Respuestas esperadas" placeholder="Nivel de detalle, ejemplos, preguntas orientadoras, citas del material, pasos de resolución, etc." data-word-limit="300"></textarea></div>
+        <div class="field"><label for="dialogo">¿Cómo debería actuar cuando el estudiante no comprende o se equivoca?</label><textarea id="dialogo" name="Acompañamiento ante dificultades" placeholder="Ej.: reformular, ofrecer una pista, preguntar qué intentó, proponer un ejemplo." data-word-limit="300"></textarea></div>
+        <fieldset><legend>Modalidades de interacción a considerar</legend><div class="checkgrid">
+          <label class="checkitem"><input type="checkbox" name="Interacciones" value="Consultas escritas"> Consultas escritas</label>
+          <label class="checkitem"><input type="checkbox" name="Interacciones" value="Práctica guiada"> Práctica guiada</label>
+          <label class="checkitem"><input type="checkbox" name="Interacciones" value="Retroalimentación"> Retroalimentación</label>
+          <label class="checkitem"><input type="checkbox" name="Interacciones" value="Adjuntar archivos"> Adjuntar archivos</label>
+          <label class="checkitem"><input type="checkbox" name="Interacciones" value="Interacción por voz"> Interacción por voz</label>
+          <label class="checkitem"><input type="checkbox" name="Interacciones" value="Generación de materiales"> Generación de materiales</label>
+        </div></fieldset>
+      </section>
+      <section class="section" id="s7">
+        <div class="sectionhead"><div class="num">7</div><div><h3>Límites, cuidado y evaluación</h3><p>Establece qué no debe hacer el bot y cómo se revisará su aporte.</p></div></div>
+        <div class="field"><label for="noDebe">¿Qué NO debería hacer el bot?</label><textarea id="noDebe" name="Límites del bot" placeholder="Ej.: inventar bibliografía, sustituir el juicio docente, resolver automáticamente toda actividad, solicitar datos personales innecesarios." data-word-limit="200"></textarea></div>
+        <div class="field"><label for="privacidad">Consideraciones sobre privacidad, transparencia y uso responsable</label><textarea id="privacidad" name="Privacidad y uso responsable" placeholder="Qué se comunicará a los estudiantes, qué datos evitar y qué precauciones se tomarán." data-word-limit="200"></textarea></div>
+        <div class="field"><label for="derivacion">¿Cuándo debería recomendar consultar al docente?</label><textarea id="derivacion" name="Derivación al docente" placeholder="Situaciones en las que debe reconocer límites o derivar la consulta." data-word-limit="200"></textarea></div>
+        <div class="field"><label for="evaluacion">¿Cómo se evaluará si el bot aporta valor a la enseñanza?</label><textarea id="evaluacion" name="Evaluación del bot" placeholder="Evidencias, comentarios de estudiantes, revisión de respuestas, utilidad para las actividades." data-word-limit="200"></textarea></div>
+        <div class="field"><label for="observaciones">Observaciones y próximos pasos</label><textarea id="observaciones" name="Observaciones y próximos pasos" placeholder="Qué falta definir, probar o ajustar antes de implementarlo." data-word-limit="200"></textarea></div>
+      </section>
+      <section class="section" id="salida">
+        <div class="sectionhead"><div class="num">✓</div><div><h3>Vista previa de la ficha</h3><p>Revisa los datos antes de imprimir el documento final.</p></div></div>
+        <div id="preview" class="preview">Completa los campos para construir la vista previa de tu ficha.</div>
+        <div class="actions">
+          <button class="btn" type="button" id="saveLocal">Guardar borrador en este dispositivo</button>
+          <button class="btn secondary" type="button" id="loadLocal">Recuperar borrador</button>
+        </div>
+        <p class="hint">El borrador se guarda únicamente en el navegador de este dispositivo. No se envía a un servidor. Descarga la ficha en PDF si necesitas conservarla o compartirla.</p>
+        <div class="actions bottom-actions">
+          <button class="btn" type="button" id="printBtn" aria-label="Imprimir la ficha o guardarla como PDF">Descargar ficha en PDF</button>
+          <button class="btn dark" type="button" id="clearBtn">Limpiar ficha</button>
+        </div>
+      </section>
+    </form>
+  </div>
+</main>
+<section class="rights-notice" aria-label="Derechos de propiedad intelectual y licencia Creative Commons">
+  <div class="wrap">
+    <p><strong>Derechos de propiedad intelectual y licencia de uso</strong></p>
+    <p>© 2026 UTN.BA · Educación a Distancia. Materiales y contenidos elaborados para el Taller de IA en Acción.</p>
+    <p>Este material se ofrece bajo la licencia <strong>Creative Commons Atribución–NoComercial–SinObraDerivada 4.0 Internacional (CC BY-NC-ND 4.0)</strong>. Se permite copiar y redistribuir el material, en cualquier medio o formato, con fines no comerciales, siempre que se reconozca la autoría, se incluya la referencia a la licencia y no se distribuyan versiones modificadas.</p>
+    <p><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es" target="_blank" rel="noopener noreferrer">Consultar los términos completos de la licencia CC BY-NC-ND 4.0</a>.</p>
+    <p class="rights-authors">Autoría docente: Esp. Elsa Reyes y Lic. Gastón Brito.</p>
+  </div>
+</section>
+<footer><div class="wrap footrow"><div><strong>Taller de IA en Acción</strong><br>UTN.BA · Educación a Distancia</div><div>Herramienta de trabajo para el diseño y la configuración de bots en el aula virtual.<br><span class="small">La ficha orienta la planificación; la configuración final debe verificarse en Moodle.</span></div></div></footer>
+<script>
+const form=document.getElementById('botForm');
+const fields=[...form.querySelectorAll('input:not([type=checkbox]),textarea,select')];
+const sections=[...document.querySelectorAll('form > .section')];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function getData(){
+  const data={};
+  for(const el of form.elements){
+    if(!el.name)continue;
+    if(el.type==='checkbox'){
+      if(!data[el.name])data[el.name]=[];
+      if(el.checked)data[el.name].push(el.value);
+    }else data[el.name]=el.value.trim();
+  }
+  data['Fecha de exportación']=new Date().toLocaleString('es-AR');
+  return data;
+}
+function sectionDone(section){
+ const controls=[...section.querySelectorAll('input:not([type=checkbox]),textarea,select')];
+ return controls.some(el=>el.value.trim()) || [...section.querySelectorAll('input[type=checkbox]')].some(el=>el.checked);
+}
+function renderPreview(){
+ const data=getData();
+ const lines=['TALLER DE IA EN ACCIÓN','UTN.BA · Educación a Distancia','FICHA DE CONFIGURACIÓN DEL BOT',''];
+ for(const section of sections){
+   const title=section.querySelector('h3')?.textContent||'';
+   lines.push(title.toUpperCase());
+   for(const el of section.querySelectorAll('input:not([type=checkbox]),textarea,select')){
+     if(!el.name || !el.value.trim())continue;
+     const label=el.closest('.field')?.querySelector('label')?.innerText||el.name;
+     lines.push(label.replace('*','').trim()+': '+el.value.trim());
+   }
+   const groups={};
+   for(const el of section.querySelectorAll('input[type=checkbox]')){
+     if(!groups[el.name])groups[el.name]=[];
+     if(el.checked)groups[el.name].push(el.value);
+   }
+   for(const [name,values] of Object.entries(groups))if(values.length)lines.push(name+': '+values.join(', '));
+   lines.push('');
+ }
+ document.getElementById('preview').textContent=lines.join('\n').trim();
+ const done=sections.filter(sectionDone).length;
+ document.getElementById('progressText').textContent=done+' de '+sections.length+' secciones';
+ document.getElementById('progressBar').style.width=(done/sections.length*100)+'%';
+}
+function download(name,content,type){
+ const blob=new Blob([content],{type});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+form.addEventListener('input',renderPreview);
+form.addEventListener('change',renderPreview);
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+document.getElementById('clearBtn').addEventListener('click',()=>{if(confirm('¿Quieres borrar todos los campos de la ficha? Esta acción no se puede deshacer.')){form.reset();renderPreview();}});
+document.getElementById('saveLocal').addEventListener('click',()=>{try{localStorage.setItem('tallerIAFicha',JSON.stringify([...form.elements].filter(e=>e.name).map(e=>({name:e.name,type:e.type,value:e.value,checked:e.checked}))));alert('Borrador guardado en este navegador.');}catch(e){alert('No se pudo guardar el borrador en este navegador. Puedes imprimir la ficha y guardarla como PDF.');}});
+document.getElementById('loadLocal').addEventListener('click',()=>{try{const saved=JSON.parse(localStorage.getItem('tallerIAFicha')||'null');if(!saved){alert('No hay un borrador guardado en este navegador.');return;}for(const item of saved){const matches=[...form.elements].filter(e=>e.name===item.name);const el=matches.find(e=>e.type===item.type&&e.value===item.value)||matches.find(e=>e.type===item.type);if(el){if(el.type==='checkbox')el.checked=!!item.checked;else el.value=item.value;}}renderPreview();alert('Borrador recuperado.');}catch(e){alert('No se pudo recuperar el borrador.');}});
+document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));a.classList.add('active');}));
+const navLinks=[...document.querySelectorAll('nav a')];
+const navTargets=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+if('IntersectionObserver' in window){
+ const navObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting){navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id));}});
+ },{rootMargin:'-15% 0px -65% 0px'});
+ navTargets.forEach(target=>navObserver.observe(target));
+}
+
+// Contadores y límites de palabras en los campos indicados.
+function countWords(value){const trimmed=value.trim();return trimmed?trimmed.split(/\s+/).length:0;}
+function setupWordCounters(){
+  form.querySelectorAll('textarea[data-word-limit]').forEach((ta)=>{
+    const limit=Number(ta.dataset.wordLimit);
+    const counter=document.createElement('div');
+    counter.className='word-counter';
+    counter.id=ta.id+'Counter';
+    counter.setAttribute('aria-live','polite');
+    ta.insertAdjacentElement('afterend',counter);
+    const update=()=>{
+      const words=countWords(ta.value);
+      if(words>limit){
+        const parts=ta.value.trim().split(/\s+/);
+        ta.value=parts.slice(0,limit).join(' ');
+      }
+      const current=countWords(ta.value);
+      counter.textContent=current+' / '+limit+' palabras';
+      counter.classList.toggle('over',current>=limit);
+      ta.removeAttribute('aria-invalid');
+    };
+    ta.addEventListener('input',update);
+    update();
+  });
+}
+const materialSelect=document.getElementById('limiteMaterial');
+const otherMaterialWrap=document.getElementById('usoMaterialOtroWrap');
+function updateOtherMaterial(){
+  if(!materialSelect||!otherMaterialWrap)return;
+  const show=materialSelect.value==='Otro';
+  otherMaterialWrap.hidden=!show;
+  const ta=document.getElementById('usoMaterialOtro');
+  if(ta)ta.required=show;
+}
+if(materialSelect)materialSelect.addEventListener('change',updateOtherMaterial);
+setupWordCounters();
+updateOtherMaterial();
+
+renderPreview();
+</script>
+</body>
+</html>
