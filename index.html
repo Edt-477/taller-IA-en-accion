@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Herramienta interactiva del Taller de IA en Acción de UTN.BA Educación a Distancia.">
-<title>Taller de IA en Acción | Ficha de configuración del bot</title>
+<title>Taller de IA en Acción | Ficha 2 de configuración del bot</title>
 <style>
 :root{--rojo:#A31235;--rojo-vivo:#c00000;--negro:#1a1a1a;--gris:#666;--gris-claro:#d9d9d9;--fondo:#f5f5f5;--blanco:#fff;--rosa:#f7e8ed;--borde:#dedede}
 *{box-sizing:border-box}
@@ -144,7 +144,7 @@ nav #navMomento1[aria-expanded="true"]{background:var(--rojo);color:#fff;border-
   <div class="intro" id="momento2Intro">
     <div>
       <span class="pill">Momento 2: Tecnológico. ¿Cómo llevamos el diseño a Moodle?</span>
-      <h2 style="margin-top:10px">Ficha de configuración del bot</h2>
+      <h2 style="margin-top:10px">Ficha 2 de configuración del bot</h2>
       <p class="muted">Completa esta ficha a partir de la propuesta pedagógica que diseñaste. La herramienta te permite guardar un borrador y descargar la ficha completa en Word o PDF.</p>
       <div class="callout"><strong>Idea central:</strong> la configuración tecnológica debe responder a una necesidad pedagógica concreta. La herramienta no reemplaza las decisiones docentes.</div>
     </div>
@@ -256,13 +256,9 @@ nav #navMomento1[aria-expanded="true"]{background:var(--rojo);color:#fff;border-
         <div class="sectionhead"><div class="num">✓</div><div><h3>Vista previa de la ficha</h3><p>Revisa los datos antes de imprimir el documento final.</p></div></div>
         <div id="preview" class="preview">Completa los campos para construir la vista previa de tu ficha.</div>
         <div class="actions">
-          <button class="btn" type="button" id="saveLocal">Guardar borrador en este dispositivo</button>
-          <button class="btn secondary" type="button" id="loadLocal">Recuperar borrador</button>
         </div>
-        <p class="hint">El borrador se guarda únicamente en el navegador de este dispositivo. No se envía a un servidor. Descarga la ficha en Word para editarla o en PDF para conservarla y compartirla.</p>
         <div class="actions bottom-actions">
           <button class="btn" type="button" id="wordBtn">Descargar ficha en Word</button>
-          <button class="btn secondary" type="button" id="printBtn" aria-label="Imprimir la ficha o guardarla como PDF">Descargar ficha en PDF</button>
           <button class="btn dark" type="button" id="clearBtn">Limpiar ficha</button>
         </div>
       </section>
@@ -462,10 +458,7 @@ document.getElementById('wordBtn').addEventListener('click',async()=>{
   }
 });
 
-document.getElementById('printBtn').addEventListener('click',()=>window.print());
 document.getElementById('clearBtn').addEventListener('click',()=>{if(confirm('¿Quieres borrar todos los campos de la ficha? Esta acción no se puede deshacer.')){form.reset();renderPreview();}});
-document.getElementById('saveLocal').addEventListener('click',()=>{try{localStorage.setItem('tallerIAFicha',JSON.stringify([...form.elements].filter(e=>e.name).map(e=>({name:e.name,type:e.type,value:e.value,checked:e.checked}))));alert('Borrador guardado en este navegador.');}catch(e){alert('No se pudo guardar el borrador en este navegador. Puedes imprimir la ficha y guardarla como PDF.');}});
-document.getElementById('loadLocal').addEventListener('click',()=>{try{const saved=JSON.parse(localStorage.getItem('tallerIAFicha')||'null');if(!saved){alert('No hay un borrador guardado en este navegador.');return;}for(const item of saved){const matches=[...form.elements].filter(e=>e.name===item.name);const el=matches.find(e=>e.type===item.type&&e.value===item.value)||matches.find(e=>e.type===item.type);if(el){if(el.type==='checkbox')el.checked=!!item.checked;else el.value=item.value;}}renderPreview();alert('Borrador recuperado.');}catch(e){alert('No se pudo recuperar el borrador.');}});
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));a.classList.add('active');}));
 const navLinks=[...document.querySelectorAll('nav a')];
 const navTargets=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
