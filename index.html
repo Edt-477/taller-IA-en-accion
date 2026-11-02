@@ -112,7 +112,7 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
     <div>
       <span class="pill">Momento 2: Tecnológico. ¿Cómo llevamos el diseño a Moodle?</span>
       <h2 style="margin-top:10px">Ficha de configuración del bot</h2>
-      <p class="muted">Completa esta ficha a partir de la propuesta pedagógica que diseñaste. La herramienta te permite guardar un borrador y generar la ficha final en PDF.</p>
+      <p class="muted">Completa esta ficha a partir de la propuesta pedagógica que diseñaste. La herramienta te permite guardar un borrador y descargar la ficha completa en Word o PDF.</p>
       <div class="callout"><strong>Idea central:</strong> la configuración tecnológica debe responder a una necesidad pedagógica concreta. La herramienta no reemplaza las decisiones docentes.</div>
     </div>
     <div class="progressbox"><strong>Progreso de la ficha</strong><div id="progressText" class="small muted">0 de 7 secciones</div><div class="progressline"><span id="progressBar"></span></div></div>
@@ -213,9 +213,10 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
           <button class="btn" type="button" id="saveLocal">Guardar borrador en este dispositivo</button>
           <button class="btn secondary" type="button" id="loadLocal">Recuperar borrador</button>
         </div>
-        <p class="hint">El borrador se guarda únicamente en el navegador de este dispositivo. No se envía a un servidor. Descarga la ficha en PDF si necesitas conservarla o compartirla.</p>
+        <p class="hint">El borrador se guarda únicamente en el navegador de este dispositivo. No se envía a un servidor. Descarga la ficha en Word para editarla o en PDF para conservarla y compartirla.</p>
         <div class="actions bottom-actions">
-          <button class="btn" type="button" id="printBtn" aria-label="Imprimir la ficha o guardarla como PDF">Descargar ficha en PDF</button>
+          <button class="btn" type="button" id="wordBtn">Descargar ficha en Word</button>
+          <button class="btn secondary" type="button" id="printBtn" aria-label="Imprimir la ficha o guardarla como PDF">Descargar ficha en PDF</button>
           <button class="btn dark" type="button" id="clearBtn">Limpiar ficha</button>
         </div>
       </section>
@@ -232,6 +233,7 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
   </div>
 </section>
 <footer><div class="wrap footrow"><div><strong>Taller de IA en Acción</strong><br>UTN.BA · Educación a Distancia</div><div>Herramienta de trabajo para el diseño y la configuración de bots en el aula virtual.<br><span class="small">La ficha orienta la planificación; la configuración final debe verificarse en Moodle.</span></div></div></footer>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 <script>
 const form=document.getElementById('botForm');
 const fields=[...form.querySelectorAll('input:not([type=checkbox]),textarea,select')];
@@ -284,6 +286,110 @@ function download(name,content,type){
 }
 form.addEventListener('input',renderPreview);
 form.addEventListener('change',renderPreview);
+
+function buildWordDocument(){
+  const { Document, Packer, Paragraph, TextRun, HeadingLevel } = window.docx;
+  const children=[];
+  const addText=(text, options={})=>children.push(new Paragraph({
+    children:[new TextRun({text:String(text??''),...options})],
+    spacing:{after:140}
+  }));
+  children.push(new Paragraph({
+    text:'Ficha de configuración del bot',
+    heading:HeadingLevel.TITLE,
+    spacing:{after:180}
+  }));
+  children.push(new Paragraph({
+    children:[new TextRun({text:'Taller de IA en Acción · UTN.BA · Educación a Distancia',bold:true,color:'666666'})],
+    spacing:{after:180}
+  }));
+  const data=getData();
+  addText('Fecha de exportación: '+(data['Fecha de exportación']||new Date().toLocaleDateString('es-AR')));
+  for(const section of sections){
+    const title=section.querySelector('h3')?.textContent?.trim()||'';
+    if(title==='Vista previa de la ficha') continue;
+    const entries=[];
+    for(const el of section.querySelectorAll('input:not([type=checkbox]),textarea,select')){
+      if(!el.name) continue;
+      const value=(el.value||'').trim();
+      if(!value) continue;
+      const label=el.closest('.field')?.querySelector('label')?.innerText?.replace('*','').trim()||el.name;
+      entries.push({label,value});
+    }
+    const groups={};
+    for(const el of section.querySelectorAll('input[type=checkbox]')){
+      if(!groups[el.name]) groups[el.name]=[];
+      if(el.checked) groups[el.name].push(el.value);
+    }
+    for(const [name,values] of Object.entries(groups)){
+      if(values.length) entries.push({label:name,value:values.join(', ')});
+    }
+    if(!entries.length) continue;
+    children.push(new Paragraph({text:title,heading:HeadingLevel.HEADING_1,spacing:{before:260,after:140}}));
+    for(const item of entries){
+      children.push(new Paragraph({
+        children:[
+          new TextRun({text:item.label+': ',bold:true,color:'A31235'}),
+          new TextRun({text:item.value})
+        ],
+        spacing:{after:180}
+      }));
+    }
+  }
+  children.push(new Paragraph({
+    children:[new TextRun({text:'Documento generado a partir de las respuestas ingresadas en la ficha. Revisar y validar las decisiones antes de configurar el bot en Moodle.',italics:true,color:'666666'})],
+    spacing:{before:300}
+  }));
+  return new Document({
+    styles:{default:{document:{run:{font:'Arial',size:22},paragraph:{spacing:{line:300}}}}},
+    sections:[{properties:{},children}]
+  });
+}
+document.getElementById('wordBtn').addEventListener('click',async()=>{
+  const btn=document.getElementById('wordBtn');
+  const originalText=btn.textContent;
+  btn.disabled=true;btn.textContent='Generando Word…';
+  try{
+    if(!window.docx) throw new Error('No se pudo cargar el generador de documentos Word. Comprueba la conexión a Internet y vuelve a intentarlo.');
+    const doc=buildWordDocument();
+    const blob=await window.docx.Packer.toBlob(doc);
+    const name=(document.getElementById('nombreBot').value.trim()||'ficha-configuracion-bot')
+      .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    // Enviar una copia del mismo DOCX a Google Drive.
+    const DRIVE_WEB_APP_URL = 'https://script.google.com/a/macros/frba.utn.edu.ar/s/AKfycbwhtmCDFCdiXUcq-Ry9dEI78K3A0BQbNYbo6OwpmQBXt_nP2uGNm32M0mrWq3NKXIfrNg/exec';
+    const arrayBuffer = await blob.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = '';
+    const chunkSize = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    const base64 = btoa(binary);
+    const fileName = name + '.docx';
+
+    // text/plain + no-cors evita la solicitud CORS preflight de Apps Script.
+    // En modo no-cors el navegador no permite leer la respuesta del servidor.
+    await fetch(DRIVE_WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ fileName, base64 })
+    });
+
+    // Descargar localmente el mismo documento.
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=fileName;
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    alert('Se generó el Word y se envió una copia a la carpeta de Drive. Verifica que aparezca allí.');
+  }catch(error){
+    alert('No se pudo generar el archivo Word. '+error.message);
+  }finally{
+    btn.disabled=false;btn.textContent=originalText;
+  }
+});
+
 document.getElementById('printBtn').addEventListener('click',()=>window.print());
 document.getElementById('clearBtn').addEventListener('click',()=>{if(confirm('¿Quieres borrar todos los campos de la ficha? Esta acción no se puede deshacer.')){form.reset();renderPreview();}});
 document.getElementById('saveLocal').addEventListener('click',()=>{try{localStorage.setItem('tallerIAFicha',JSON.stringify([...form.elements].filter(e=>e.name).map(e=>({name:e.name,type:e.type,value:e.value,checked:e.checked}))));alert('Borrador guardado en este navegador.');}catch(e){alert('No se pudo guardar el borrador en este navegador. Puedes imprimir la ficha y guardarla como PDF.');}});
