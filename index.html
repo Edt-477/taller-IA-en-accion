@@ -89,6 +89,38 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
 @media(max-width:800px){.hero{display:block;min-height:unset}.hero-art{display:none!important}.layout{grid-template-columns:1fr}nav{position:static;display:flex;gap:5px;overflow-x:auto;padding:9px;scrollbar-width:thin}nav::before{display:none}nav a{white-space:nowrap;flex:0 0 auto;margin:0;border-left:0;border-bottom:3px solid transparent;background:#fff;padding:10px 12px}nav a:hover,nav a.active{border-left:0;border-bottom-color:var(--rojo)}.intro{grid-template-columns:1fr}.progressbox{max-width:240px}.grid2{grid-template-columns:1fr}}
 @media(max-width:480px){.wrap{width:min(100% - 22px,1120px)}header{padding-top:28px}.section{padding:17px}.checkgrid{grid-template-columns:1fr}.branddesc{font-size:.72rem}.brandmark{width:40px;height:40px}}
 @media print{body{background:white}.topbar,.actions,nav,footer,.progressbox{display:none!important}.brandbar{display:none!important}header{background:white;color:#111;padding:10px 0;border-bottom:3px solid var(--rojo)}.print-brand{display:block;margin-bottom:12px}.print-brand img{display:block;width:270px;max-width:75%;height:auto}.hero{display:block;min-height:unset}.hero-art{display:none!important}h1{font-size:28pt;color:#111}.authors{color:#333}h1 span{color:var(--rojo)}.subtitle{color:#333}.wrap{width:100%}main{padding:15px 0}.layout{display:block}.section{break-inside:avoid;border:1px solid #bbb;padding:15px;margin-bottom:12px}.sectionhead{margin-bottom:10px}input,textarea,select{border:0!important;border-bottom:1px solid #aaa!important;border-radius:0!important;padding:4px 0!important;background:transparent!important}.preview{border:1px solid #aaa}.callout{background:#f5f5f5}}
+
+.m1-question{scroll-margin-top:18px}
+nav a.nav-m1{background:#f7e8ed;color:var(--rojo);font-weight:800;border-left:4px solid var(--rojo)}
+#formContent{min-width:0}
+#momento1Panel .m1-actions{margin-top:18px}
+.m1-heading{color:var(--negro);font-size:1.6rem;line-height:1.2;margin:0 0 10px}
+.m1-subtitle{font-size:1.18rem;font-weight:750;margin:0 0 6px}
+.m1-authors{color:#666;margin:0 0 22px}
+
+
+.m1-question .example{color:var(--gris);font-size:.91rem;line-height:1.55;margin:0 0 12px}
+
+.word-counter{font-size:.8rem;color:var(--gris);text-align:right;margin-top:-10px;margin-bottom:10px}
+.m1-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+
+
+nav .nav-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:transparent;border:0;border-left:4px solid transparent;padding:11px 12px;color:var(--negro);font:inherit;font-size:.94rem;cursor:pointer;border-radius:7px}
+nav .nav-toggle:hover{background:#f7e8ed;color:var(--rojo)}
+nav .nav-toggle[aria-expanded="true"]{background:#f7e8ed;color:var(--rojo);font-weight:800;border-left-color:var(--rojo)}
+nav .nav-chevron{transition:transform .18s ease;font-size:.8rem}
+nav .nav-toggle[aria-expanded="true"] .nav-chevron{transform:rotate(180deg)}
+nav .nav-subitems{padding-left:12px;margin:3px 0 8px;border-left:2px solid #eadde1}
+nav .nav-subitems a{font-size:.88rem;padding:8px 10px}
+
+
+nav .nav-moment-button,
+nav #navMomento1{background:var(--rojo-vivo);color:#fff;font-weight:800;border-left:4px solid var(--rojo-vivo);margin:4px 0}
+nav .nav-moment-button:hover,
+nav #navMomento1:hover{background:var(--rojo);color:#fff}
+nav #navMomento1[aria-expanded="true"]{background:var(--rojo);color:#fff;border-left-color:#7e0d27}
+
 </style>
 </head>
 <body>
@@ -108,7 +140,8 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
 <div class="brandbar"><div class="wrap brand"><img class="brand-logo" src="assets/logo-ead-blanco.png" alt="UTN.BA Educación a Distancia"></div></div>
 <main class="wrap">
   <div class="section-rule" aria-hidden="true"></div>
-  <div class="intro">
+
+  <div class="intro" id="momento2Intro">
     <div>
       <span class="pill">Momento 2: Tecnológico. ¿Cómo llevamos el diseño a Moodle?</span>
       <h2 style="margin-top:10px">Ficha de configuración del bot</h2>
@@ -119,9 +152,22 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
   </div>
   <div class="layout">
     <nav aria-label="Secciones de la ficha">
-      <a href="#s1">1. Identificación</a><a href="#s2">2. Propósito pedagógico</a><a href="#s3">3. Identidad del bot</a><a href="#s4">4. Materiales</a><a href="#s5">5. Habilidades</a><a href="#s6">6. Interacción</a><a href="#s7">7. Límites y evaluación</a><a href="#salida">Vista previa</a>
+      <button type="button" id="navMomento1" class="nav-toggle" aria-expanded="false" aria-controls="navMomento1Items">Ficha 1 · Diseño pedagógico <span class="nav-chevron" aria-hidden="true">▾</span></button>
+      <div id="navMomento1Items" class="nav-subitems" hidden>
+      <a href="#m1ident" class="nav-m1-section">1. Identificación</a>
+      <a href="#m1q1" class="nav-m1-section">2. Necesidad pedagógica</a>
+      <a href="#m1q2" class="nav-m1-section">3. Objetivos de aprendizaje</a>
+      <a href="#m1q3" class="nav-m1-section">4. Función del bot</a>
+      <a href="#m1q4" class="nav-m1-section">5. Errores y respuestas</a>
+      <a href="#m1q5" class="nav-m1-section">6. Autonomía</a>
+      <a href="#m1q6" class="nav-m1-section">7. Contenidos y límites</a>
+      <a href="#m1q7" class="nav-m1-section">8. Tono y vínculo</a>
+      <a href="#m1q8" class="nav-m1-section">9. Qué no debe hacer</a>
+      </div>
+      <button type="button" id="navMomento2" class="nav-toggle nav-moment-button" aria-label="Ficha 2, configuración del bot">Ficha 2 · Configuración del bot</button>
+      <a href="#s1" class="nav-m2-section">1. Identificación</a><a href="#s2" class="nav-m2-section">2. Propósito pedagógico</a><a href="#s3" class="nav-m2-section">3. Identidad del bot</a><a href="#s4" class="nav-m2-section">4. Materiales</a><a href="#s5" class="nav-m2-section">5. Habilidades</a><a href="#s6" class="nav-m2-section">6. Interacción</a><a href="#s7" class="nav-m2-section">7. Límites y evaluación</a><a href="#salida" class="nav-m2-section">Vista previa</a>
     </nav>
-    <form id="botForm">
+    <div id="formContent"><form id="botForm">
       <section class="section" id="s1">
         <div class="sectionhead"><div class="num">1</div><div><h3>Identificación</h3><p>Datos básicos de la propuesta en la que se integrará el bot.</p></div></div>
         <div class="grid2">
@@ -221,9 +267,32 @@ footer .footrow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wr
         </div>
       </section>
     </form>
+
+  <div id="momento1Panel" style="display:none">
+    <h2 class="m1-heading">Diseñar el bot desde la propuesta de enseñanza.</h2>
+    <p class="m1-subtitle">¿Para qué queremos un bot en nuestra aula virtual?</p>
+    <p class="m1-authors">Esp. Clara Ingrassia y Esp. Florencia Ragone</p>
+    <p class="muted">Responde las ocho preguntas. Cada respuesta admite un máximo de 300 palabras.</p>
+    <form id="momento1Form">
+      <section class="section m1-identification" id="m1ident">
+        <div class="sectionhead"><div class="num">1</div><div><h3>Identificación</h3><p>Datos básicos de la propuesta de enseñanza.</p></div></div>
+        <div class="grid2">
+          <div class="field"><label for="m1apellidoNombre">Apellido y nombre</label><input id="m1apellidoNombre" name="Apellido y nombre" type="text" placeholder="Completa tu nombre"></div>
+          <div class="field"><label for="m1carrera">Carrera</label><input id="m1carrera" name="Carrera" type="text" placeholder="Nombre de la carrera"></div>
+          <div class="field"><label for="m1asignatura">Asignatura / espacio curricular</label><input id="m1asignatura" name="Asignatura / espacio curricular" type="text" placeholder="Nombre de la asignatura"></div>
+        </div>
+      </section>
+      <section class="section m1-question" id="m1q1"><div class="sectionhead"><div class="num">2</div><div><h3>2. ¿Qué necesidad o problema pedagógico buscamos abordar con la herramienta?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><div class="field"><label for="m1answer1">Respuesta</label><textarea id="m1answer1" name="Pregunta 1: ¿Qué necesidad o problema pedagógico buscamos abordar con la herramienta?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q2"><div class="sectionhead"><div class="num">3</div><div><h3>3. ¿Qué queremos que nuestros estudiantes aprendan? ¿Con qué objetivos se relaciona el bot?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><div class="field"><label for="m1answer2">Respuesta</label><textarea id="m1answer2" name="Pregunta 2: ¿Qué queremos que nuestros estudiantes aprendan? ¿Con qué objetivos se relaciona el bot?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q3"><div class="sectionhead"><div class="num">4</div><div><h3>4. ¿Qué función cumplirá el bot? ¿Cuál es el rol del bot en el aprendizaje? ¿Cómo se integra con el resto de las actividades del aula?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><p class="example">Por ejemplo: ¿en qué momento del aprendizaje sería más valioso que intervenga: antes de clase, durante los ejercicios o al revisar errores? Cuando un alumno no entiende un concepto, ¿preferimos que el bot explique directamente o que haga preguntas para guiarlo? ¿Queremos que resuelva ejercicios completos o que acompañe el proceso paso a paso sin dar la solución final de entrada?</p><div class="field"><label for="m1answer3">Respuesta</label><textarea id="m1answer3" name="Pregunta 3: ¿Qué función cumplirá el bot? ¿Cuál es el rol del bot en el aprendizaje? ¿Cómo se integra con el resto de las actividades del aula?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q4"><div class="sectionhead"><div class="num">5</div><div><h3>5. ¿Cómo queremos que el bot responda a errores y equivocaciones?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><p class="example">Por ejemplo: ¿preferimos que corrija directamente, que señale dónde está el error sin decir cuál es, que haga una pregunta para ayudar a detectarlo o que permita al estudiante elegir cómo continuar?</p><div class="field"><label for="m1answer4">Respuesta</label><textarea id="m1answer4" name="Pregunta 4: ¿Cómo queremos que el bot responda a errores y equivocaciones?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q5"><div class="sectionhead"><div class="num">6</div><div><h3>6. ¿Cómo modelamos la autonomía y la dependencia cognitiva de los y las estudiantes?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><p class="example">Por ejemplo: ¿te preocupa que los alumnos usen el bot como atajo para no pensar? ¿Qué límites pondrías? ¿Cómo se trabajará en clase la dependencia cognitiva? ¿Te gustaría una alerta después de cierta cantidad de interacciones? ¿Preferís que el bot pida un intento antes de ofrecer una respuesta?</p><div class="field"><label for="m1answer5">Respuesta</label><textarea id="m1answer5" name="Pregunta 5: ¿Cómo modelamos la autonomía y la dependencia cognitiva de los y las estudiantes?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q6"><div class="sectionhead"><div class="num">7</div><div><h3>7. ¿En qué contenidos debería basarse? ¿Cómo se comporta el bot respecto del uso de la base de conocimiento y los límites temáticos?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><p class="example">Por ejemplo: ¿debe limitarse al programa de la materia o puede explorar temas relacionados? ¿Cuál sería el límite? ¿Qué contenidos no debería mencionar? ¿Hay temas o formas de enseñar en los que preferís que no intervenga porque requieren indispensablemente el rol docente?</p><div class="field"><label for="m1answer6">Respuesta</label><textarea id="m1answer6" name="Pregunta 6: ¿En qué contenidos debería basarse? ¿Cómo se comporta el bot respecto del uso de la base de conocimiento y los límites temáticos?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q7"><div class="sectionhead"><div class="num">8</div><div><h3>8. ¿Cómo será el tono del bot y cómo es el vínculo con el alumno?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><p class="example">Por ejemplo: ¿preferís un tono formal, amigable y accesible, o uno que recuerde que se conversa con una máquina? ¿Debe reconocer el esfuerzo con expresiones motivadoras o ser más neutro y técnico? ¿Cómo debería responder ante conductas agresivas?</p><div class="field"><label for="m1answer7">Respuesta</label><textarea id="m1answer7" name="Pregunta 7: ¿Cómo será el tono del bot y cómo es el vínculo con el alumno?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section><section class="section m1-question" id="m1q8"><div class="sectionhead"><div class="num">9</div><div><h3>9. ¿Qué cosas no queremos que haga el bot?</h3><p>Reflexiona sobre esta dimensión del diseño pedagógico del bot.</p></div></div><div class="field"><label for="m1answer8">Respuesta</label><textarea id="m1answer8" name="Pregunta 8: ¿Qué cosas no queremos que haga el bot?" data-max-words="300" placeholder="Escribe tu respuesta (máximo 300 palabras)."></textarea><div class="word-counter">0 / 300 palabras</div></div></section>
+      <div class="m1-actions"><button class="btn" type="button" id="wordMomento1">Descargar ficha 1 en Word</button><button class="btn secondary" type="button" id="clearMomento1">Limpiar respuestas</button></div>
+    </form>
   </div>
+
+  </div>
+  </div>
+
 </main>
-<section class="rights-notice" aria-label="Derechos de propiedad intelectual y licencia Creative Commons">
+<section class="rights-notice"
+ aria-label="Derechos de propiedad intelectual y licencia Creative Commons">
   <div class="wrap">
     <p><strong>Derechos de propiedad intelectual y licencia de uso</strong></p>
     <p>© 2026 UTN.BA · Educación a Distancia. Materiales y contenidos elaborados para el Taller de IA en Acción.</p>
@@ -443,6 +512,44 @@ setupWordCounters();
 updateOtherMaterial();
 
 renderPreview();
+
+const navM1=document.getElementById('navMomento1');
+const navM1Items=document.getElementById('navMomento1Items');
+const panelM1=document.getElementById('momento1Panel'),introM2=document.getElementById('momento2Intro'),layoutM2=document.querySelector('.layout'),botForm=document.getElementById('botForm');
+function showMoment(n){
+ const first=n===1;
+ panelM1.style.display=first?'block':'none';
+ introM2.style.display=first?'none':'grid';
+ botForm.style.display=first?'none':'block';
+ document.querySelectorAll('.nav-m1-section').forEach(a=>a.hidden=!first);
+ document.querySelectorAll('.nav-m2-section').forEach(a=>a.hidden=first);
+ navM1.classList.toggle('nav-m1',first);
+ if(!first){navM1.setAttribute('aria-expanded','false');navM1Items.hidden=true;}
+ navM1.setAttribute('aria-disabled','false');
+ document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+ navM1.classList.toggle('active',first);
+ if(!first)document.querySelector('nav a[href="#s1"]').classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+navM1.addEventListener('click',()=>{
+ const expanded=navM1.getAttribute('aria-expanded')==='true';
+ navM1.setAttribute('aria-expanded',String(!expanded));
+ navM1Items.hidden=expanded;
+ if(expanded){showMoment(2);}
+ else{showMoment(1);}
+});
+ document.getElementById('navMomento2').addEventListener('click',()=>showMoment(2));
+
+showMoment(2);
+// Los enlaces de secciones de la Ficha 2 vuelven a mostrarla si se estaba consultando la Ficha 1.
+document.querySelectorAll('nav a.nav-m2-section').forEach(a=>a.addEventListener('click',()=>showMoment(2)));
+document.querySelectorAll('nav a.nav-m1-section').forEach(a=>a.addEventListener('click',()=>showMoment(1)));
+const m1Form=document.getElementById('momento1Form');
+m1Form.querySelectorAll('textarea[data-max-words]').forEach(ta=>{const counter=ta.parentElement.querySelector('.word-counter');const update=()=>{if(countWords(ta.value)>300)ta.value=(ta.value.match(/\S+/g)||[]).slice(0,300).join(' ');const n=countWords(ta.value);counter.textContent=n+' / 300 palabras';counter.style.color=n>=300?'#A31235':'#666';};ta.addEventListener('input',update);update();});
+function buildMoment1Doc(){const {Document,Paragraph,TextRun,HeadingLevel}=window.docx;const children=[new Paragraph({text:'Diseñar el bot desde la propuesta de enseñanza.',heading:HeadingLevel.TITLE}),new Paragraph({text:'¿Para qué queremos un bot en nuestra aula virtual?',heading:HeadingLevel.HEADING_1}),new Paragraph({text:'Esp. Clara Ingrassia y Esp. Florencia Ragone'}),new Paragraph({text:'Taller de IA en Acción · UTN.BA · Educación a Distancia'}),new Paragraph({text:'1. IDENTIFICACIÓN',heading:HeadingLevel.HEADING_2})];[['Apellido y nombre','m1apellidoNombre'],['Carrera','m1carrera'],['Asignatura / espacio curricular','m1asignatura']].forEach(([label,id])=>{const value=document.getElementById(id).value.trim();children.push(new Paragraph({text:label+': '+(value||'Sin completar'),spacing:{after:100}}));});[...m1Form.querySelectorAll('.m1-question')].forEach(q=>{children.push(new Paragraph({text:q.querySelector('h3').innerText,heading:HeadingLevel.HEADING_2,spacing:{before:220,after:100}}));children.push(new Paragraph({text:q.querySelector('textarea').value.trim()||'Sin respuesta',spacing:{after:180}}));});children.push(new Paragraph({children:[new TextRun({text:'Fecha de exportación: '+new Date().toLocaleDateString('es-AR'),italics:true})]}));return new Document({styles:{default:{document:{run:{font:'Arial',size:22}}}},sections:[{children}]});}
+document.getElementById('wordMomento1').addEventListener('click',async()=>{const btn=document.getElementById('wordMomento1');btn.disabled=true;try{if(!window.docx)throw new Error('No se pudo cargar el generador Word.');const blob=await window.docx.Packer.toBlob(buildMoment1Doc());const bytes=new Uint8Array(await blob.arrayBuffer());let binary='';for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));const base64=btoa(binary);const fileName='ficha-momento-1-diseno-pedagogico-'+new Date().toISOString().slice(0,10)+'.docx';const DRIVE_WEB_APP_URL='https://script.google.com/a/macros/frba.utn.edu.ar/s/AKfycbwhtmCDFCdiXUcq-Ry9dEI78K3A0BQbNYbo6OwpmQBXt_nP2uGNm32M0mrWq3NKXIfrNg/exec';await fetch(DRIVE_WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fileName,base64})});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=fileName;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);alert('Se generó la ficha del Momento 1. Verifica la copia en Drive.');}catch(e){alert('No se pudo generar el Word: '+e.message);}finally{btn.disabled=false;}});
+document.getElementById('clearMomento1').addEventListener('click',()=>{if(confirm('¿Quieres borrar todas las respuestas del Momento 1?')){m1Form.reset();m1Form.querySelectorAll('textarea').forEach(t=>t.dispatchEvent(new Event('input')));}});
+
 </script>
 </body>
 </html>
